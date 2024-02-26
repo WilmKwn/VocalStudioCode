@@ -5,18 +5,7 @@ import Folder from './components/Folder';
 import useEditData from './components/useEditData';
 import useSpeechToText from './components/useSpeechToText';
 
-const dict = {
-  "one": "1",
-  "two": "2",
-  "three": "3",
-  "four": "4",
-  "five": "5",
-  "six": "6",
-  "seven": "7",
-  "eight": "8",
-  "nine": "9",
-  "ten": "10",
-}
+import wordsToNumbers from 'words-to-numbers';
 
 function App() {
   const [data, setData] = useState({
@@ -49,8 +38,10 @@ function App() {
 
   useEffect(() => {
     const cleaned = text.trim().split()[0];
-    if (cleaned in dict && dict[cleaned] in mapping) {
-      setCurr({name: "speech", id: mapping[dict[cleaned]]});
+
+    const num = `${wordsToNumbers(cleaned)}`;
+    if (num in mapping) {
+      setCurr({name: "speech", id: mapping[num]});
     }
   }, [text]);
 
