@@ -8,6 +8,8 @@
 # testing
 /coverage
 
+secrets.js
+
 # production
 /build
 
