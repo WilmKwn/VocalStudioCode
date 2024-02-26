@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { v4 } from "uuid";
 
 const useEditData = () => {
@@ -20,6 +19,7 @@ const useEditData = () => {
                     items: [],
                 });
             }
+
             return data;
         }
         const newData = data.items.map((item) => {
@@ -38,6 +38,19 @@ const useEditData = () => {
         return {...data, items: newData};
     }
 
+    function getNameFromId(data, fileId) {
+        if (data.id === fileId) {
+            return data.name;
+        }
+
+        let output = null;
+        data.items.forEach((item) => {
+            const o = getNameFromId(item, fileId);
+            if (o) output = o;
+        });
+        return output;
+    }
+
     let mapping = {};
     function traverseConfig(data) {
         if (data.type === 'file') {
@@ -52,7 +65,7 @@ const useEditData = () => {
         return mapping;
     }
 
-    return {insertData, updateConfig, getMapping};
+    return {insertData, updateConfig, getMapping, getNameFromId};
 }
 
 export default useEditData;

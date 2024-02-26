@@ -32,7 +32,7 @@ function App() {
   const [curr, setCurr] = useState({name: '', id: ''});
   const [mapping, setMapping] = useState({});
 
-  const { insertData, updateConfig, getMapping } = useEditData();
+  const { insertData, updateConfig, getMapping, getNameFromId } = useEditData();
 
   const {text, start, stop} = useSpeechToText();
 
@@ -41,7 +41,7 @@ function App() {
 
     const num = `${wordsToNumbers(cleaned)}`;
     if (num in mapping) {
-      setCurr({name: "speech", id: mapping[num]});
+      setCurr({name: getNameFromId(data, mapping[num]), id: mapping[num]});
     }
   }, [text]);
 
@@ -84,6 +84,7 @@ function App() {
     return 'none';
   }
 
+  const suggestOptions = { showSnippets: false, showWords: false, showClasses: false, showFunctions: false };
   return (
     <div className="w-full h-screen flex">
 
@@ -97,7 +98,7 @@ function App() {
 
       <div className='w-2/3 flex flex-col'>
         <p className='w-full text-2xl bg-gray-200'>Current: {curr.name}</p>
-        {curr.id!=='' && <Editor path={curr.id} defaultLanguage={fileTypeFromName(curr.name)} className="m-1 border-2 border-black" theme="vs-dark" />}
+        {curr.id!=='' && <Editor path={curr.id} defaultLanguage={fileTypeFromName(curr.name)} options={{suggest: suggestOptions}} className="m-1 border-2 border-black" theme="vs-dark" />}
       </div>
 
     </div>
